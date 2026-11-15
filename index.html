@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bottleneck Calculator for Laptop &amp; Desktop: CPU + GPU + Game FPS Estimator</title>
+<meta name="description" content="Free PC and laptop bottleneck calculator. Pick your CPU, GPU, RAM and screen resolution to see which part limits your gaming, plus estimated FPS in popular games.">
+<meta property="og:title" content="Bottleneck Calculator for Laptop &amp; Desktop">
+<meta property="og:description" content="Find out if your CPU or GPU is holding your PC back, and estimate FPS in popular games.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+<style> :root{--bg:#eef1ee;--card:#fbfcfb;--ink:#16211c;--mute:#5d6b64;--line:#d3dad5;--cpu:#1f6f8b;--gpu:#c2571a;--ok:#2f8f4e;--warn:#b8860b;--bad:#c0392b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1512;--card:#17201b;--ink:#e8efea;--mute:#9aa9a1;--line:#2a372f;--cpu:#5bb8d6;--gpu:#f08a4b;--ok:#5fd183;--warn:#e0b73c;--bad:#ff7b6b;color-scheme:dark}}*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}main{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:28px 18px 48px}h1{font-size:clamp(1.9rem,5vw,3rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin:0 0 8px}.sub{color:var(--mute);margin:0 0 24px;max-width:60ch}.panel{background:color-mix(in srgb,var(--card) 90%,transparent);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:14px;padding:18px}.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}.tabs button{font:inherit;font-weight:600;padding:8px 16px;border:1px solid var(--line);background:transparent;color:var(--mute);border-radius:999px;cursor:pointer}.tabs button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:640px){.grid{grid-template-columns:1fr}}label{display:block;font-weight:600;font-size:.92rem;margin-bottom:5px}select,input[type=search],input[type=number]{width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--cpu);outline-offset:2px}.adv{margin-top:14px}.sec{font-weight:800;margin:20px 0 0}.cpu-l{color:var(--cpu)}.gpu-l{color:var(--gpu)}.go{margin-top:16px;width:100%;font:inherit;font-weight:800;font-size:1.05rem;padding:13px;border:0;border-radius:10px;background:var(--ink);color:var(--bg);cursor:pointer}#out{margin-top:20px;display:none}.beamwrap{height:150px;position:relative;margin:6px 0 4px}.beam{position:absolute;left:8%;right:8%;top:50px;height:8px;background:var(--ink);border-radius:4px;transform-origin:50% 50%;transition:transform .7s cubic-bezier(.3,1.4,.5,1)}.pivot{position:absolute;left:50%;top:54px;width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-bottom:70px solid var(--line);transform:translateX(-50%)}.pan{position:absolute;top:-2px;width:96px;transform:translateX(-50%);text-align:center;font-weight:800;font-size:.9rem;padding:6px;border-radius:8px;color:#fff;transition:transform .7s}.pan.c{left:0;background:var(--cpu)}.pan.g{left:100%;background:var(--gpu)}.big{font-size:clamp(2.6rem,9vw,4.4rem);font-weight:800;line-height:1;letter-spacing:-.03em}.verdict{font-size:1.1rem;font-weight:600;margin:6px 0 14px}.bars div.row{display:grid;grid-template-columns:96px 1fr 84px;gap:10px;align-items:center;margin:8px 0;font-size:.9rem}.track{height:18px;background:var(--bg);border:1px solid var(--line);border-radius:6px;overflow:hidden}.fill{height:100%;transition:width .7s}.tips{margin:14px 0 0;padding-left:18px;color:var(--mute)}table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}summary{cursor:pointer;font-weight:600;margin:12px 0 6px}.gm{margin-top:26px;border-top:1px solid var(--line);padding-top:4px}#pct{display:inline-block;padding:.12em .6em;border-radius:999px;background:color-mix(in srgb,currentColor 14%,transparent)}#bgfx{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none}.fi{position:absolute;bottom:-90px;color:var(--ink);opacity:.13;animation:rise linear infinite;will-change:transform}@keyframes rise{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(var(--dx),-62vh) rotate(calc(var(--r)/2))}100%{transform:translate(0,-130vh) rotate(var(--r))}}.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.22}@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(120px,-80px) scale(1.25)}}@media(prefers-reduced-motion:reduce){.fi{animation:none;bottom:auto;top:calc(var(--y)*1%)}.blob{animation:none!important}}.gauge{max-width:340px;margin:4px auto 2px}.gauge svg{width:100%;height:auto;display:block}.fm{position:relative;height:14px;border-radius:7px;margin:12px 0 2px;background:linear-gradient(90deg,var(--bad) 0 12.5%,var(--warn) 12.5% 25%,var(--ok) 25% 50%,var(--cpu) 50% 100%)}.fm i{position:absolute;top:-5px;left:0;width:4px;height:24px;background:var(--ink);border-radius:2px;box-shadow:0 0 0 2px var(--card);transition:left .7s}.fmt{position:relative;height:20px;font-size:.75rem;color:var(--mute)}.fmt span{position:absolute;transform:translateX(-50%)}.note{font-size:.8rem;color:var(--mute);margin-top:18px}@media(prefers-reduced-motion:reduce){*{transition:none!important}}</style>
+</head>
+<body>
+<div id="bgfx" aria-hidden="true"><i class="blob" style="width:440px;height:440px;left:-120px;top:8%;background:var(--cpu);animation:drift 30s ease-in-out infinite alternate"></i><i class="blob" style="width:380px;height:380px;right:-100px;top:45%;background:var(--gpu);animation:drift 36s ease-in-out infinite alternate-reverse"></i></div>
+<main>
+<h1>Bottleneck calculator</h1>
+<p class="sub">Pick any desktop or laptop CPU and GPU, your screen resolution and what you do on the PC. See which part holds the other back.</p>
+<section class="panel">
+<div class="tabs" role="group" aria-label="Device type">
+<button data-m="all" aria-pressed="true">All</button>
+<button data-m="desktop" aria-pressed="false">Desktop</button>
+<button data-m="laptop" aria-pressed="false">Laptop</button>
+</div>
+<div class="grid">
+<div><label class="cpu-l" for="cpu">Processor (CPU)</label><select id="cpu"></select></div>
+<div><label class="gpu-l" for="gpu">Graphics card (GPU)</label><select id="gpu"></select></div>
+<div><label for="res">Resolution</label><select id="res"><optgroup label="16:9"><option value="1366x768">1366×768 (HD)</option><option value="1600x900">1600×900 (HD+)</option><option value="1920x1080" selected>1920×1080 (FHD / 1080p)</option><option value="2560x1440">2560×1440 (QHD / 2K / 1440p)</option><option value="3200x1800">3200×1800 (QHD+)</option><option value="3840x2160">3840×2160 (4K UHD)</option><option value="5120x2880">5120×2880 (5K)</option><option value="7680x4320">7680×4320 (8K)</option></optgroup><optgroup label="16:10"><option value="1280x800">1280×800 (WXGA)</option><option value="1440x900">1440×900 (WXGA+)</option><option value="1680x1050">1680×1050 (WSXGA+)</option><option value="1920x1200">1920×1200 (WUXGA)</option><option value="2560x1600">2560×1600 (WQXGA / 2.5K)</option><option value="2880x1800">2880×1800 (3K)</option><option value="3200x2000">3200×2000 (WQXGA+)</option><option value="3456x2160">3456×2160 (3.5K)</option><option value="3840x2400">3840×2400 (WQUXGA / 4K 16:10)</option></optgroup><optgroup label="3:2"><option value="2256x1504">2256×1504</option><option value="2880x1920">2880×1920</option><option value="3000x2000">3000×2000</option></optgroup><optgroup label="Ultrawide"><option value="2560x1080">2560×1080 (UWFHD 21:9)</option><option value="3440x1440">3440×1440 (UWQHD 21:9)</option><option value="3840x1600">3840×1600 (UWQHD+ 21:9)</option><option value="5120x1440">5120×1440 (DQHD 32:9)</option></optgroup><option value="custom">Custom size…</option></select><div id="cres" style="display:none;gap:8px;margin-top:8px"><input id="cw" type="number" min="320" placeholder="Width"><input id="ch" type="number" min="200" placeholder="Height"></div></div>
+<div><label for="use">Workload</label><select id="use"><option value="aaa">Gaming: AAA, High settings</option><option value="esports">Esports: competitive, Low settings</option><option value="ultra">Gaming: Ultra + ray tracing</option><option value="work">Video editing / 3D / streaming</option></select></div>
+<div><label for="tf">Target FPS (optional)</label><select id="tf"><option value="0">None</option><option>60</option><option>120</option><option>144</option><option>240</option></select></div>
+</div>
+<p class="sec">Fine-tune (optional)</p>
+<div class="grid adv">
+<div><label class="cpu-l" for="ghz">CPU boost clock (GHz, up to)</label><input id="ghz" type="number" step="0.1" min="1" max="8"></div>
+<div><label class="gpu-l" for="w">GPU power limit (W)</label><input id="w" type="number" min="10" max="600"></div>
+<div><label class="gpu-l" for="mhz">GPU clock (MHz)</label><input id="mhz" type="number" min="300" max="4000"></div>
+<div><label class="gpu-l" for="vram">GPU VRAM</label><select id="vram"><option value="0">Auto / stock</option><option value="2">2 GB</option><option value="4">4 GB</option><option value="6">6 GB</option><option value="8">8 GB</option><option value="10">10 GB</option><option value="12">12 GB</option><option value="16">16 GB</option><option value="20">20 GB</option><option value="24">24 GB</option><option value="32">32 GB</option></select></div>
+<div><label class="gpu-l" for="mt">VRAM type (GDDR version)</label><select id="mt"><option value="">Auto / stock</option><option>GDDR5</option><option>GDDR5X</option><option>GDDR6</option><option>GDDR6X</option><option>GDDR7</option></select></div>
+<div><label class="gpu-l" for="ms">VRAM speed (Gbps per pin)</label><input id="ms" type="number" step="0.5" min="4" max="40" placeholder="stock"></div>
+<div><label for="ram">System RAM</label><select id="ram"><option>4</option><option>8</option><option selected>16</option><option>32</option><option>64</option><option>96</option><option>128</option></select></div>
+<div><label for="rt">RAM type</label><select id="rt"><option>DDR4</option><option selected>DDR5</option><option>LPDDR4X</option><option>LPDDR5</option><option>LPDDR5X</option></select></div>
+<div><label for="rs">RAM speed</label><div style="display:flex;gap:8px"><input id="rs" type="number" min="400" max="10000" list="rsl" placeholder="pick or type" style="min-width:0;flex:1"><select id="ru" style="width:auto"><option value="1">MT/s</option><option value="2">MHz</option></select></div><datalist id="rsl"></datalist></div>
+<div><label for="rc">RAM channels</label><select id="rc"><option value="2">Dual channel</option><option value="1">Single channel</option></select></div>
+</div>
+<button class="go" id="go">Calculate bottleneck</button>
+<div id="out" aria-live="polite">
+<div class="gauge"><svg viewBox="0 0 200 140" role="img" aria-label="Bottleneck gauge"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" style="stroke:var(--line)" stroke-width="16" stroke-linecap="round"/><path id="dgRng" d="M20 100 A80 80 0 0 1 180 100" fill="none" style="stroke:var(--mute);opacity:.3;stroke-dasharray:0 0 0 252" stroke-width="16"/><path id="dgArc" d="M20 100 A80 80 0 0 1 180 100" fill="none" style="stroke:var(--ok);stroke-dasharray:0 252;transition:stroke-dasharray .8s,stroke .4s" stroke-width="10" stroke-linecap="round"/><line id="dgNeedle" x1="100" y1="100" x2="100" y2="30" style="stroke:var(--ink);transform-origin:100px 100px;transform:rotate(-90deg);transition:transform .8s cubic-bezier(.3,1.3,.5,1)" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="100" r="6" style="fill:var(--ink)"/><text id="dgTxt" x="100" y="130" text-anchor="middle" font-size="24" font-weight="800" style="fill:var(--ink)">&ndash;</text><text x="20" y="118" text-anchor="middle" font-size="10" style="fill:var(--mute)">0%</text><text x="180" y="118" text-anchor="middle" font-size="10" style="fill:var(--mute)">100%</text></svg></div>
+<div class="big" id="pct" style="font-size:clamp(1.7rem,6vw,2.7rem)">&ndash;</div>
+<div id="bp" style="font-weight:800;font-size:1.25rem;margin:2px 0 6px"></div>
+<div class="verdict" id="verdict"></div>
+<div class="bars">
+<div class="row"><span class="cpu-l">CPU ceiling</span><div class="track"><div class="fill" id="bc" style="background:var(--cpu)"></div></div><span id="vc"></span></div>
+<div class="row"><span class="gpu-l">GPU ceiling</span><div class="track"><div class="fill" id="bg" style="background:var(--gpu)"></div></div><span id="vg"></span></div>
+</div>
+<ul class="tips" id="tips"></ul>
+<div class="gm">
+<p class="sec">Can it run your game?</p>
+<div class="grid adv">
+<div><label for="gres">Screen resolution</label><select id="gres"></select><div id="gcres" style="display:none;gap:8px;margin-top:8px"><input id="gcw" type="number" min="320" placeholder="Width"><input id="gch" type="number" min="200" placeholder="Height"></div></div>
+<div><label for="gm">Game</label><select id="gm"></select></div>
+<div><label for="gs">Graphics setting</label><select id="gs"><option value="1.9">Low</option><option value="1.4">Medium</option><option value="1" selected>High</option><option value=".8">Ultra</option></select></div>
+<div><label for="grt">Ray tracing</label><select id="grt"><option value="0">Off</option><option value="1">On</option></select></div>
+<div><label for="gu">Upscaling (DLSS / FSR / XeSS)</label><select id="gu"><option value="1">Off (native)</option><option value="1.45">Quality</option><option value="1.65">Balanced</option><option value="1.9">Performance</option></select></div>
+<div><label for="gfg">Frame generation</label><select id="gfg"><option value="0">Off</option><option value="1">On</option></select></div>
+</div>
+<div class="big" id="gf" style="margin-top:16px"></div>
+<div class="verdict" id="glim" style="margin:2px 0 0;font-size:.95rem"></div>
+<div class="fm"><i id="fmk"></i></div><div class="fmt"><span style="left:12.5%">30</span><span style="left:25%">60</span><span style="left:50%">120</span><span style="left:100%">240+</span></div>
+<div class="verdict" id="gv"></div>
+<details><summary>All games at these settings</summary><div style="overflow-x:auto"><table id="gt"></table></div></details>
+<p class="note">FPS are estimates: reference benchmark levels scaled to your parts. Real results vary with drivers, game version and the scene.</p>
+</div>
+</div>
+<p class="note">This is an estimate, not a measurement. CPU and GPU scores are approximate relative indexes (about 20% uncertainty each), so the tool gives a classification with a confidence level and shows the bottleneck percentage as an estimated range. Real behaviour depends on the game, scene, drivers, laptop cooling and power limits.</p>
+</section>
+<section class="panel" style="margin-top:22px">
+<h2 style="margin:0 0 10px;font-size:1.3rem">Bottleneck calculator FAQ</h2>
+<details><summary>What is a bottleneck?</summary><p>A bottleneck means one part, usually the CPU or the GPU, limits how many frames per second the whole PC can produce. The other part waits for it.</p></details>
+<details><summary>Is a GPU running at 100% bad?</summary><p>No. In most games at higher resolutions and settings the GPU should be the limiting part. A fully used GPU means you are getting everything it can give.</p></details>
+<details><summary>Does more VRAM give more FPS?</summary><p>Not by itself. Extra VRAM only helps when a game needs more memory than your card has, and then it removes stutter. Memory type and speed (bandwidth) affect speed more than capacity does.</p></details>
+<details><summary>Why does a fast GPU show a CPU bottleneck at low resolution?</summary><p>At low resolutions the GPU finishes each frame quickly and waits for the CPU. Raising resolution or quality moves the limit back to the GPU.</p></details>
+<details><summary>How accurate is this calculator?</summary><p>It is an estimate, not a measurement. CPU and GPU scores are approximate and about 20% uncertain, so results are shown with a confidence level and a range. Real FPS depends on the game, scene, drivers, cooling and laptop power limits. GTA VI numbers are predictions because no PC version has been announced.</p></details>
+</section>
+<footer style="margin-top:22px;text-align:center;font-size:.8rem;color:var(--mute)">&copy; 2026 Fahad Ahmed. All rights reserved. Estimates only; not affiliated with Intel, AMD, NVIDIA, Rockstar or any game publisher. Product names belong to their owners.</footer>
+</main>
+<script>// name:score; D=desktop, L=laptop (relative perf index, 9800X3D / RTX 4090 ≈ 100)
+var CPU_D="Ryzen 7 9800X3D:100|Ryzen 9 9950X3D:98|Ryzen 9 9900X3D:93|Ryzen 9 9950X:88|Ryzen 9 9900X:85|Ryzen 7 9700X:85|Ryzen 5 9600X:82|Ryzen 7 7800X3D:90|Ryzen 9 7950X3D:91|Ryzen 9 7900X3D:84|Ryzen 9 7950X:82|Ryzen 9 7900X:79|Ryzen 7 7700X:76|Ryzen 5 7600X:73|Ryzen 5 7600:70|Ryzen 5 7500F:66|Ryzen 7 5800X3D:72|Ryzen 7 5700X3D:70|Ryzen 9 5950X:68|Ryzen 9 5900X:66|Ryzen 7 5800X:64|Ryzen 7 5700X:61|Ryzen 5 5600X:58|Ryzen 5 5600:56|Ryzen 5 5500:50|Ryzen 7 3700X:45|Ryzen 5 3600:40|Core Ultra 9 285K:88|Core Ultra 7 265K:85|Core Ultra 5 245K:78|Core i9-14900K:90|Core i7-14700K:85|Core i5-14600K:78|Core i5-14400F:66|Core i3-14100F:50|Core i9-13900K:87|Core i7-13700K:82|Core i5-13600K:75|Core i5-13400F:63|Core i3-13100F:48|Core i9-12900K:76|Core i7-12700K:70|Core i5-12600K:66|Core i5-12400F:58|Core i3-12100F:46|Core i9-11900K:56|Core i7-11700K:52|Core i5-11400F:46|Core i9-10900K:52|Core i7-10700K:46|Core i5-10400F:38|Core i3-10100:30";
+var CPU_L="Core Ultra X9 388H:74|Core Ultra X7 385H:70|Core Ultra 9 386H:68|Ryzen 9 9955HX3D:92|Ryzen 9 9955HX:85|Ryzen 9 9850HX:86|Ryzen 9 8945HS:70|Ryzen 7 8845HS:66|Ryzen 7 7840HS:64|Ryzen 5 7640HS:55|Ryzen 5 7535HS:46|Ryzen 9 7945HX3D:82|Ryzen 9 7945HX:78|Ryzen 9 7845HX:72|Ryzen 7 7745HX:66|Ryzen 5 7645HX:60|Ryzen 9 6900HX:55|Ryzen 7 6800H:52|Ryzen 7 5800H:44|Ryzen 5 5600H:38|Ryzen 7 4800H:38|Ryzen 5 4600H:33|Core Ultra 9 285HX:86|Core Ultra 7 255HX:80|Core Ultra 7 265H:66|Core Ultra 9 185H:60|Core Ultra 7 155H:56|Core Ultra 5 125H:50|Core i9-14900HX:83|Core i7-14700HX:76|Core i5-14500HX:66|Core i9-13980HX:80|Core i9-13900HX:78|Core i7-13700HX:72|Core i5-13500HX:64|Core i7-13700H:62|Core i5-13500H:56|Core i5-13420H:48|Core i9-12900H:58|Core i7-12700H:54|Core i5-12500H:48|Core i5-12450H:44|Core i7-11800H:42|Core i5-11400H:36|Core i7-10750H:34|Core i5-10300H:28|Core i7-9750H:30";
+var GPU_D="GeForce RTX 5090:135|GeForce RTX 5080:88|GeForce RTX 5070 Ti:78|GeForce RTX 5070:65|GeForce RTX 5060 Ti:46|GeForce RTX 5060:38|GeForce RTX 4090:100|GeForce RTX 4080 Super:82|GeForce RTX 4080:80|GeForce RTX 4070 Ti Super:72|GeForce RTX 4070 Ti:66|GeForce RTX 4070 Super:62|GeForce RTX 4070:56|GeForce RTX 4060 Ti:44|GeForce RTX 4060:37|GeForce RTX 3090 Ti:69|GeForce RTX 3090:66|GeForce RTX 3080 Ti:64|GeForce RTX 3080:59|GeForce RTX 3070 Ti:52|GeForce RTX 3070:48|GeForce RTX 3060 Ti:45|GeForce RTX 3060:34|GeForce RTX 3050:24|GeForce RTX 2080 Ti:46|GeForce RTX 2080 Super:41|GeForce RTX 2070 Super:36|GeForce RTX 2060 Super:31|GeForce RTX 2060:27|GeForce GTX 1660 Ti:22|GeForce GTX 1660 Super:22|GeForce GTX 1660:20|GeForce GTX 1650:14|GeForce GTX 1080 Ti:31|GeForce GTX 1080:27|GeForce GTX 1070:21|GeForce GTX 1060:15|Radeon RX 9070 XT:70|Radeon RX 9070:62|Radeon RX 9060 XT:42|Radeon RX 7900 XTX:78|Radeon RX 7900 XT:68|Radeon RX 7900 GRE:58|Radeon RX 7800 XT:54|Radeon RX 7700 XT:47|Radeon RX 7600 XT:36|Radeon RX 7600:33|Radeon RX 6950 XT:60|Radeon RX 6900 XT:55|Radeon RX 6800 XT:52|Radeon RX 6800:46|Radeon RX 6750 XT:40|Radeon RX 6700 XT:37|Radeon RX 6650 XT:31|Radeon RX 6600 XT:29|Radeon RX 6600:26|Radeon RX 6500 XT:13|Radeon RX 5700 XT:27|Radeon RX 5600 XT:22|Radeon RX 580:14|Arc B580:36|Arc B570:32|Arc A770:31|Arc A750:28|Arc A580:25|Arc A380:10";
+var GPU_L="Arc B390 (integrated):15|GeForce RTX 5090 Laptop:78|GeForce RTX 5080 Laptop:65|GeForce RTX 5070 Ti Laptop:55|GeForce RTX 5070 Laptop:42|GeForce RTX 5060 Laptop:36|GeForce RTX 5050 Laptop:28|GeForce RTX 4090 Laptop:64|GeForce RTX 4080 Laptop:54|GeForce RTX 4070 Laptop:41|GeForce RTX 4060 Laptop:33|GeForce RTX 4050 Laptop:25|GeForce RTX 3080 Ti Laptop:50|GeForce RTX 3080 Laptop:44|GeForce RTX 3070 Ti Laptop:38|GeForce RTX 3070 Laptop:34|GeForce RTX 3060 Laptop:28|GeForce RTX 3050 Ti Laptop:20|GeForce RTX 3050 Laptop:18|GeForce RTX 2080 Super Max-Q:30|GeForce RTX 2070 Laptop:25|GeForce RTX 2060 Laptop:20|GeForce GTX 1660 Ti Laptop:17|GeForce GTX 1650 Ti Laptop:13|GeForce GTX 1650 Laptop:11|GeForce MX550:6|GeForce MX450:5|Radeon RX 7900M:50|Radeon RX 7600M XT:28|Radeon RX 7600M:25|Radeon RX 7600S:24|Radeon RX 6850M XT:40|Radeon RX 6800M:36|Radeon RX 6700M:28|Radeon RX 6600M:22|Radeon 890M (integrated):9|Radeon 780M (integrated):7|Radeon 680M (integrated):5|Radeon Vega 8 (integrated):3|Arc A730M:22|Arc A550M:16|Arc 140T (integrated):8|Intel Iris Xe (integrated):4|Intel UHD (integrated):2";
+function parse(s,t){return s.split("|").map(function(x){var i=x.lastIndexOf(":");return{n:x.slice(0,i),s:+x.slice(i+1),t:t}})}
+var CPUS=parse(CPU_D,"desktop").concat(parse(CPU_L,"laptop")),GPUS=parse(GPU_D,"desktop").concat(parse(GPU_L,"laptop"));
+var mode="all",$=function(i){return document.getElementById(i)};
+function fill(sel,list){
+var keep=sel.value,h="";
+["desktop","laptop"].forEach(function(t){
+if(mode!=="all"&&mode!==t)return;
+h+='<optgroup label="'+(t==="desktop"?"Desktop":"Laptop")+'">';
+list.forEach(function(x,i){if(x.t===t)h+='<option value="'+i+'">'+x.n+'</option>'});
+h+="</optgroup>"});
+sel.innerHTML=h;if(keep&&sel.querySelector('option[value="'+keep+'"]'))sel.value=keep;
+}
+function refresh(){fill($("cpu"),CPUS);fill($("gpu"),GPUS);hint();if(typeof VARS!=='undefined'&&VARS)gspec()}
+document.querySelectorAll(".tabs button").forEach(function(b){b.onclick=function(){
+mode=b.dataset.m;document.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});refresh()}});
+refresh();
+$("cpu").value=CPUS.findIndex(function(x){return x.n==="Ryzen 5 7600X"});
+$("gpu").value=GPUS.findIndex(function(x){return x.n==="GeForce RTX 4070"});
+function refW(n){var m={'5090 Laptop':150,'5080 Laptop':150,'5070 Ti Laptop':115,'5070 Laptop':100,'5060 Laptop':100,'5050 Laptop':100,'4090 Laptop':150,'4080 Laptop':150,'4070 Laptop':115,'4060 Laptop':115,'4050 Laptop':115,'3080 Ti Laptop':150,'3080 Laptop':150,'3070 Ti Laptop':125,'3070 Laptop':125,'3060 Laptop':115,'3050 Ti Laptop':80,'3050 Laptop':80,'MX':25,'integrated':28};for(var k in m)if(n.indexOf(k)>-1)return m[k];return 100}
+function refMHz(g){var n=g.n,ig=/integrated/.test(n),b=ig?2000:/RTX 50|RTX 40|RX 9|RX 7|Arc B/.test(n)?2500:/RTX 30|RX 6|Arc A/.test(n)?1850:1700;return Math.round(g.t==='laptop'&&!ig?b*.8:b)}
+function refGHz(c){var n=c.n,d=c.t==='desktop',x3=/X3D/.test(n),hx=/HX/.test(n),m,g;
+if(/Ryzen/.test(n)){m=+(n.match(/\d{4}/)||[0])[0];g=Math.floor(m/1000);if(d)return g>=9?(x3?5.3:5.5):g===8?5.1:g===7?(x3?5.0:5.4):g===5?(x3?4.5:4.7):4.4;return hx?5.4:g>=7?5.0:4.5}
+if(/Ultra/.test(n))return d?5.5:hx?5.3:5.0;
+m=n.match(/i(\d)-(\d{1,2})\d{3}/);
+if(m){var i=+m[1],gn=+m[2];if(d)return Math.min(6,(i===9?5.2:i===7?4.9:i===5?4.4:4.3)+(gn>=13&&i>=5?.6:0)+(/K$/.test(n)?.3:0));return hx?5.3:i>=7?4.8:4.4}
+return 4.5}
+function hint(){var cc=CPUS[+$('cpu').value];if(cc)$('ghz').placeholder='typical up to ~'+refGHz(cc).toFixed(1)+' GHz';var g=GPUS[+$('gpu').value];if(!g)return;var rw=g.t==='laptop'?refW(g.n):0;$('w').placeholder=rw?'max ~'+rw+' W':'laptop GPUs only';$('w').disabled=!rw;$('mhz').placeholder='typical ~'+refMHz(g)+' MHz'}
+function gpuFactor(g,res,ign){var f=1,n=[],w=+$('w').value,m=+$('mhz').value,v=ign?0:(+$('vram').value||vramOf(g)),rw=g.t==='laptop'?refW(g.n):0;
+if(m>0)f*=Math.pow(Math.max(.4,Math.min(dz(m/refMHz(g)),1.3)),.75);
+else if(w>0&&rw)f*=Math.pow(Math.max(.3,Math.min(dz(w/rw),1.15)),.4);
+if(f<.95)n.push('Your GPU clock/power setting trims about '+Math.round((1-f)*100)+'% of its stock performance.');
+if(f>1.05)n.push('Your GPU clock is above typical, adding about '+Math.round((f-1)*100)+'% performance.');
+var need=res>.9?6:res>.68?8:res>.58?10:12;
+if(v>0&&v<need){f*=Math.pow(v/need,1.2);n.push('Your VRAM is below what this resolution wants ('+need+' GB+), so expect stutter in newer games.')}else if(v>0)n.push('This GPU has '+v+' GB of VRAM and this resolution needs about '+need+' GB, so more VRAM would not add FPS.');
+var mt=$('mt').value,ms=+$('ms').value,sm=stockMem(g.n);
+if(sm&&(mt||ms>0)){var ut=mt||sm,br=(ms>0?ms:MS[ut])/MS[sm];if(Math.abs(br-1)>.05){var ex=Math.min(.4,.2+.1*Math.log(Math.max(1,pxl()/2073600))/Math.LN2),mf=Math.pow(Math.max(.5,Math.min(br,1.6)),ex);f*=mf;n.push('Your memory bandwidth is about '+Math.round(Math.abs(br-1)*100)+'% '+(br>1?'above':'below')+' this GPU stock memory, changing GPU performance by about '+Math.round((mf-1)*100)+'%.')}}
+return{f:f,n:n}}
+function ramFactor(){var sz=+$('ram').value,t=$('rt').value,s=+$('rs').value*(+$('ru').value),f=1,n=[],b={DDR4:3200,DDR5:5600,LPDDR4X:4267,LPDDR5:6400,LPDDR5X:7500}[t];
+if(s>0)f*=Math.pow(Math.max(.5,Math.min(s/b,1.3)),.2);
+if(t==='DDR4'||t==='LPDDR4X')f*=.95;
+if($('rc').value==='1'){f*=.85;n.push('Single-channel RAM costs CPU performance. Dual-channel is better.')}
+if(sz<=8){f*=.8;n.push('8 GB RAM or less can stall modern games. 16 GB or more is safer.')}else if(sz<16)f*=.9;
+if(f<.95&&!n.length)n.push('Your RAM setup trims the CPU side slightly.');
+return{f:f,n:n}}
+$('gpu').onchange=function(){hint();gspec()};$('cpu').onchange=hint;hint();
+var RS={DDR4:[2400,2666,3000,3200,3600,4000],DDR5:[4800,5200,5600,6000,6400,6800,7200,8000,8200,8400],LPDDR4X:[3733,4267],LPDDR5:[5500,6400],LPDDR5X:[7500,8000,8533,9600]};
+function rsl(){$('rsl').innerHTML=RS[$('rt').value].map(function(v){return'<option value="'+Math.round(v/(+$('ru').value))+'">'}).join('')}
+var lastU=1;function ruc(){var n=+$('ru').value,r=$('rs');if(r.value)r.value=Math.round(r.value*lastU/n);lastU=n;rsl()}
+$('ru').onchange=ruc;$('rt').onchange=rsl;rsl();
+function resM(){var v=$('res').value,w,h;if(v==='custom'){w=+$('cw').value;h=+$('ch').value}else{var a=v.split('x');w=+a[0];h=+a[1]}if(!(w>0&&h>0)){w=1920;h=1080}return Math.max(.35,Math.min(1.6,Math.sqrt(2073600/(w*h))))}
+function rerun(){if(LAST)$('go').onclick()}
+$('gres').innerHTML=$('res').innerHTML;
+$('res').onchange=function(){var d=$('res').value==='custom'?'flex':'none';$('cres').style.display=d;$('gcres').style.display=d;$('gres').value=$('res').value;rerun()};
+$('gres').onchange=function(){$('res').value=$('gres').value;$('res').onchange()};
+['w','h'].forEach(function(k){var a=$('c'+k),b=$('gc'+k);a.oninput=function(){b.value=a.value;rerun()};b.oninput=function(){a.value=b.value;rerun()}});
+var GM='GTA VI (PC not out, prediction)~75~83~0~0|CS2~350~600~0~0|Valorant~500~700~0~0|Fortnite~190~380~.6~0|Apex Legends~220~300~0~0|Overwatch 2~340~450~0~0|Marvel Rivals~170~300~0~0|Call of Duty: Warzone~150~250~0~0|Cyberpunk 2077~105~190~.55~0|Red Dead Redemption 2~110~200~0~0|GTA V~190~300~.7~0|Elden Ring~75~140~.75~60|Hogwarts Legacy~95~140~.6~0|Starfield~80~130~0~0|Baldur\u2019s Gate 3~125~170~0~0|The Witcher 3 (Next-Gen)~100~170~.6~0|Forza Horizon 5~150~250~.85~0|Marvel\u2019s Spider-Man Remastered~130~180~.7~0|The Last of Us Part I~85~180~0~0|Black Myth: Wukong~70~150~.6~0|Alan Wake 2~70~150~.6~0|Helldivers 2~95~150~0~0|Monster Hunter Wilds~55~110~.7~0|Assassin\u2019s Creed Shadows~70~130~.7~0|Indiana Jones and the Great Circle~90~150~-1~0|The Finals~130~200~.7~0|Dota 2~250~400~0~0|League of Legends~400~600~0~0|Rocket League~380~500~0~0'.split('|').map(function(s){var a=s.split('~');return{n:a[0],g:+a[1],c:+a[2],rt:+a[3],e:+a[4]}});
+var LAST=null;function dz(r){return r<.85?r/.85:r>1.15?r/1.15:1}
+$('gm').innerHTML=GM.map(function(m,i){return'<option value="'+i+'">'+m.n+'</option>'}).join('');
+function pxl(){var v=$('res').value,w,h;if(v==='custom'){w=+$('cw').value;h=+$('ch').value}else{var a=v.split('x');w=+a[0];h=+a[1]}return w>0&&h>0?w*h:2073600}
+function nort(n){return /GTX|GeForce MX|RX 5\d\d|RX 580|UHD|Iris|Vega/.test(n)}
+function est(m,L,o){o=o||{set:+$('gs').value,rt:$('grt').value==='1',up:+$('gu').value,fg:$('gfg').value==='1'};
+var g=L.g,no=nort(g.n),amd=/Radeon|Arc/.test(g.n),px=pxl()/2073600;
+if(m.rt<0&&no)return{f:0,b:0,fm:1,gf:0,cf:0,by:'missing ray-tracing support'};
+var on=o.rt&&m.rt>0&&!no,rf=1;if(on)rf=amd?Math.pow(m.rt,1.4):m.rt;if(m.rt<0&&amd)rf=.85;
+var gf=m.g*(g.s*L.gp.f/56)*Math.pow(Math.max(.2,px),-.65)*o.set*rf*o.up;
+var cf=m.c*(L.cap/100)*((on||m.rt<0)?.85:1)*(o.set>=1.9?1.12:o.set>=1.4?1.06:o.set>=1?1:.95),ec=m.e||1e9,fm=o.fg&&!no?1.7:1,b=Math.min(gf,cf),r=Math.min(b*fm,ec);
+return{f:r,b:b,fm:fm,gf:gf,cf:cf,by:r===ec?'the game FPS cap':cf<gf?'your CPU':'your GPU'}}
+function games(){if(!LAST)return;var L=LAST,m=GM[+$('gm').value],r=est(m,L),f=Math.round(r.f),rt=$('grt').value==='1';
+var col=f>=60?'var(--ok)':f>=40?'var(--warn)':'var(--bad)';
+var lab=f>=100?'Excellent':f>=60?'Smooth':f>=40?'Playable':f>=25?'Choppy':'Not playable';
+$('gf').textContent=f+' FPS';$('gf').style.color=col;$('glim').textContent=r.gf>0?'GPU can do about '+Math.round(r.gf)+' FPS · CPU can do about '+Math.round(r.cf)+' FPS · limited by '+r.by:'';$('fmk').style.left='calc('+Math.min(100,f/240*100)+'% - 2px)';
+var s=f?lab+'. Estimated range '+Math.round(f*.9)+' to '+Math.round(f*1.1)+' FPS, 1% lows about '+Math.round(f*.78)+' FPS. Limited by '+r.by+'.':m.n+' needs ray-tracing hardware that this GPU does not have.';
+if(r.fm>1&&f)s+=' About '+Math.round(r.b)+' FPS is real rendering before frame generation, and it feels best above about 40.';
+if(f&&r.by==='your CPU')s+=' Because your CPU is the limit, graphics settings and resolution change FPS only slightly here. A faster CPU would help more.';
+if(rt&&m.rt===0)s+=' This game has no ray tracing, so that setting is ignored.';
+if(rt&&m.rt>0&&nort(L.g.n))s+=' This GPU has no ray-tracing hardware, so RT was left off.';
+if(m.n.indexOf('GTA VI')===0)s+=' Not out on PC: Rockstar has announced no PC version, specs or FPS. Consoles launch Nov 19, 2026 and are widely expected to run at about 30 FPS (not confirmed), so this PC number is a prediction.';
+$('gv').textContent=s;
+var h='<tr><th>Game</th><th>FPS</th><th>Limited by</th></tr>';
+GM.forEach(function(x){var e=est(x,L);h+='<tr><td>'+x.n+'</td><td>'+Math.round(e.f)+'</td><td>'+e.by+'</td></tr>'});
+$('gt').innerHTML=h}
+$('gm').onchange=$('gs').onchange=$('grt').onchange=$('gu').onchange=$('gfg').onchange=games;
+(function(){var I=['<path d="M6 9h12a4 4 0 0 1 4 4v2a3 3 0 0 1-5.2 2l-1.6-1.8H8.8L7.2 17A3 3 0 0 1 2 15v-2a4 4 0 0 1 4-4zM7 12v3M5.5 13.5h3"/><circle cx="16" cy="12.5" r=".7"/><circle cx="18" cy="14.5" r=".7"/>','<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>','<rect x="7" y="3" width="10" height="18" rx="2"/><circle cx="12" cy="8" r="1.6"/><path d="M10 16h4"/>','<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/>','<rect x="2" y="7" width="19" height="9" rx="1.5"/><circle cx="8" cy="11.5" r="2.6"/><circle cx="15" cy="11.5" r="2.6"/><path d="M5 16v3"/>','<rect x="7" y="7" width="10" height="10" rx="1"/><path d="M9 3v4M12 3v4M15 3v4M9 17v4M12 17v4M15 17v4M3 9h4M3 12h4M3 15h4M17 9h4M17 12h4M17 15h4"/>','<rect x="7" y="3" width="10" height="18" rx="5"/><path d="M12 3v6"/>','<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>','<rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 11h.01M10 11h.01M14 11h.01M18 11h.01M7 14h10"/>'];
+var h='',n=innerWidth<640?14:22;
+for(var i=0;i<n;i++){var z=34+Math.random()*46,d=22+Math.random()*26,sd=Math.random()<.5?-1:1;
+h+='<svg class="fi" viewBox="0 0 24 24" width="'+z+'" height="'+z+'" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" style="left:'+(i/n*100+Math.random()*4)+'%;--dx:'+sd*(20+Math.random()*50)+'px;--r:'+sd*(90+Math.random()*240)+'deg;--y:'+Math.round(Math.random()*90)+';animation-duration:'+d+'s;animation-delay:-'+(Math.random()*d)+'s">'+I[i%I.length]+'</svg>'}
+$('bgfx').insertAdjacentHTML('beforeend',h)})();
+var VARS=[[/RTX 5060 Ti$/,[8,16]],[/RTX 4060 Ti$/,[8,16]],[/RTX 3080 Laptop/,[8,16]],[/RTX 3080$/,[10,12]],[/RTX 3050$/,[6,8]],[/RTX 2060$/,[6,12]],[/GTX 1060/,[3,6]],[/RTX 5070 Laptop/,[8,12]],[/RX 9060 XT/,[8,16]],[/Arc A770/,[8,16]]];
+var TV=[[/GTX 1650$/,['GDDR5','GDDR6']],[/RTX 3060 Ti$/,['GDDR6','GDDR6X']],[/GTX 1060/,['GDDR5','GDDR5X']]];
+function gspec(){var g=GPUS[+$('gpu').value];if(!g)return;var vo=$('vram'),mt=$('mt'),kv=vo.value,kt=mt.value,sm=stockMem(g.n),vs=vramOf(g),vr=null,tv=null,i;
+for(i=0;i<VARS.length;i++)if(VARS[i][0].test(g.n)){vr=VARS[i][1];break}
+for(i=0;i<TV.length;i++)if(TV[i][0].test(g.n)){tv=TV[i][1];break}
+function opts(a,f){return a.map(function(x){return'<option value="'+x+'">'+f(x)+'</option>'}).join('')}
+if(vr){vo.innerHTML='<option value="0">Choose your version</option>'+opts(vr,function(x){return x+' GB'});vo.disabled=false;if(vr.indexOf(+kv)>-1)vo.value=kv}
+else if(vs){vo.innerHTML='<option value="'+vs+'">'+vs+' GB (official)</option>';vo.value=String(vs);vo.disabled=true}
+else{vo.innerHTML='<option value="0">Auto / unknown</option>'+opts([2,4,6,8,10,12,16,20,24,32],function(x){return x+' GB'});vo.disabled=false;vo.value=kv}
+if(!sm){mt.innerHTML='<option value="">Shared / n.a.</option>';mt.value='';mt.disabled=true}
+else if(tv){mt.innerHTML=opts(tv,function(x){return x});mt.disabled=false;mt.value=tv.indexOf(kt)>-1?kt:sm}
+else{mt.innerHTML='<option value="'+sm+'">'+sm+' (official)</option>';mt.value=sm;mt.disabled=true}}
+var MS={GDDR5:8,GDDR5X:11,GDDR6:16,GDDR6X:21,GDDR7:28};
+function stockMem(n){if(/integrated|Iris|UHD|Vega|MX\d/.test(n))return null;if(/RTX 50\d\d/.test(n))return 'GDDR7';if(/Laptop|Max-Q/.test(n))return /RTX|GTX 16/.test(n)?'GDDR6':/GTX/.test(n)?'GDDR5':'GDDR6';
+if(/RTX 40(90|80|70)|RTX 30(90|80|70 Ti)/.test(n))return 'GDDR6X';if(/RTX (40|30|20)\d\d|GTX 1660 (Ti|Super)/.test(n))return 'GDDR6';if(/GTX 1080/.test(n))return 'GDDR5X';if(/GTX (16|10)\d\d/.test(n))return 'GDDR5';if(/RX 5\d\d$/.test(n))return 'GDDR5';if(/Radeon|Arc/.test(n))return 'GDDR6';return null}
+var PROF={aaa:{m:{g:95,c:150,rt:.6,e:0},o:{set:1,rt:false,up:1,fg:false},t:'High settings'},esports:{m:{g:350,c:450,rt:0,e:0},o:{set:1.9,rt:false,up:1,fg:false},t:'competitive Low settings'},ultra:{m:{g:95,c:150,rt:.6,e:0},o:{set:.8,rt:true,up:1,fg:false},t:'Ultra settings with ray tracing'},work:null};
+var VR='5090 Laptop:24|5080 Laptop:16|5070 Ti Laptop:12|5070 Laptop:0|5060 Laptop:8|5050 Laptop:8|4090 Laptop:16|4080 Laptop:12|4070 Laptop:8|4060 Laptop:8|4050 Laptop:6|3080 Ti Laptop:16|3070 Ti Laptop:8|3070 Laptop:8|3060 Laptop:6|3050 Ti Laptop:4|5090:32|5080:16|5070 Ti:16|5070:12|5060 Ti:0|5060:8|4090:24|4080 Super:16|4080:16|4070 Ti Super:16|4070 Ti:12|4070 Super:12|4070:12|4060 Ti:0|4060:8|3090:24|3080 Ti:12|3080:0|3070:8|3060 Ti:8|3060:12|3050:0|2080 Ti:11|2080 Super:8|2070 Super:8|2060 Super:8|2060:0|GTX 1660:6|GTX 1650:4|1080 Ti:11|GTX 1080:8|GTX 1070:8|9070:16|7900 XTX:24|7900 XT:20|7900 GRE:16|7800 XT:16|7700 XT:12|7600 XT:16|7600:8|6950 XT:16|6900 XT:16|6800 XT:16|6800:16|6750 XT:12|6700 XT:12|6650 XT:8|6600 XT:8|6600:8|6500 XT:4|5700 XT:8|Arc B580:12|Arc B570:10|Arc A750:8|Arc A580:8'.split('|').map(function(x){var a=x.split(':');return[a[0],+a[1]]});
+function vramOf(g){var n=g.n;if(/RX \d{4}[MS]|integrated|Iris|UHD|MX\d/.test(n))return 0;for(var i=0;i<VR.length;i++)if(n.indexOf(VR[i][0])>-1)return VR[i][1];return 0}
+function resTxt(){var v=$('res').value;return v==='custom'?($('cw').value||'?')+'\u00d7'+($('ch').value||'?'):v.replace('x','\u00d7')}
+function vramNeed(o){var r=resM(),n=r>.9?6:r>.68?8:r>.58?10:12;return o.set<=.8?n+2:n}
+gspec();
+$("go").onclick=function(){
+var c=CPUS[+$("cpu").value],g=GPUS[+$("gpu").value],rp=ramFactor(),gp=gpuFactor(g,resM());
+var cg=+$('ghz').value,cf0=cg>0?Math.pow(Math.max(.5,Math.min(dz(cg/refGHz(c)),1.25)),.8):1;
+var cap=c.s*rp.f*cf0;LAST={c:c,g:g,cap:cap,gp:gp};
+var P=PROF[$('use').value],tf=+$('tf').value,t=[],cls,conf='',col,txt,gv=0,cv=0,ang=0;
+if(c.t!==g.t)t.push('This pairs a '+c.t+' CPU with a '+g.t+' GPU, which is an unusual combination. Check that it exists.');
+if(cf0<.95)t.push('Your CPU clock is below typical, trimming about '+Math.round((1-cf0)*100)+'% of CPU performance.');
+t=t.concat(rp.n,gp.n);
+if(!P){cls='Insufficient data';col='var(--warn)';txt='Video editing, 3D and streaming depend on the software, the codec and whether it uses the GPU, so a CPU/GPU balance cannot be calculated from these inputs. Pick a gaming workload for an estimate.'}
+else{
+var e=est(P.m,LAST,P.o),e0=est(P.m,{c:c,g:g,cap:cap,gp:gpuFactor(g,resM(),true)},P.o);gv=e.gf;cv=e.cf;
+var r=e0.gf/cv,v=+$('vram').value||vramOf(g),need=vramNeed(P.o),short=v&&v<need,ws=resTxt()+' '+P.t;
+ang=Math.max(-14,Math.min(14,Math.log(gv/cv)*18));
+if(short&&r>=1/1.5){cls='VRAM-limited';conf=v<need*.75?'High confidence':'Medium confidence';col='var(--bad)';txt='At '+ws+' this workload wants roughly '+need+' GB of video memory and '+g.n+' has '+v+' GB. Running out of VRAM causes stutter and sudden FPS drops that raw GPU speed cannot fix.'}
+else if(r<1/1.5){cls='GPU-bound';conf='High confidence';col='var(--ok)';txt='At '+ws+' the GPU is expected to be the primary performance limiter. This is normal for this workload. A GPU near 100% usage means it is being fully used, not that something is wrong, and a faster CPU would not add FPS here.'+(short?' Also, this workload wants roughly '+need+' GB of VRAM and the GPU has '+v+' GB, so expect stutter in newer games.':'')}
+else if(r<1/1.2){cls='GPU-bound (likely)';conf='Medium confidence';col='var(--ok)';txt='At '+ws+' the GPU is probably the main limiter, but the gap is small enough that some games or scenes may be CPU-limited.'}
+else if(r<=1.2){cls='Balanced / mixed';conf='Low confidence';col='var(--warn)';txt='At '+ws+' the CPU and GPU limits are within the error of this estimate, so neither can be called the main limiter. It will change from game to game and scene to scene.'}
+else if(r<=1.5){cls='CPU-bound (likely)';conf='Medium confidence';col='var(--warn)';txt='At '+ws+' the CPU is probably limiting FPS, so the GPU will often wait for it, especially in busy open-world or competitive games.'}
+else{cls='CPU-bound';conf='High confidence';col='var(--bad)';txt='At '+ws+' the CPU is expected to be the main limiter, so the GPU cannot be fully used. Raising resolution or quality costs little FPS here, and a faster CPU would help most.'}
+var lim=Math.min(gv,cv);
+if(r>1.2){var mp=pxl()/1e6*Math.pow(gv/cv,1/.65),RS=[['1080p',2.07],['1440p',3.69],['2.5K',4.1],['3K',5.18],['4K',8.29]],nm=RS.reduce(function(a,b){return Math.abs(b[1]-mp)<Math.abs(a[1]-mp)?b:a});txt+=' This is normal for a fast GPU at a low resolution: the GPU finishes frames quickly and waits for the CPU. The GPU would become the limit at '+(mp>9?'above 4K.':'around '+nm[0]+'.')}
+if(tf>0)txt+=lim>=tf*1.05?' Target of '+tf+' FPS: reachable in this estimate.':' Target of '+tf+' FPS: not expected to be reached (about '+Math.round(lim)+' FPS, limited by '+(gv<cv?'the GPU':'the CPU')+').';
+t.push(cls.indexOf('GPU')===0?'To raise FPS: lower resolution, settings or ray tracing, or use upscaling.':cls.indexOf('CPU')===0?'To raise FPS: a faster CPU or faster RAM. Higher resolution or quality is almost free.':cls.indexOf('VRAM')===0?'Lower texture quality first, then resolution, or choose a GPU with more VRAM.':'No single upgrade is clearly best. Check the game section for your titles.');
+t.push('Bar values are estimated FPS ceilings for a typical game of this type, each about 20% uncertain.');
+t.push('The bottleneck percentage is how far the weaker part sits below the stronger one. In GPU-bound gaming that is normal, not a fault.');
+if(!v)t.push('This GPU is not in the VRAM database (or has several VRAM versions), so VRAM limits were not checked. Pick its VRAM above to include them.');
+}
+$("out").style.display="block";
+$("pct").textContent=cls+(conf?' \u00b7 '+conf:'');$("pct").style.color=col;
+var bp='';
+if(P&&gv>0&&cv>0){var lo=Math.min(gv,cv),hi=Math.max(gv,cv),q=lo/hi,pc=Math.round((1-q)*100),pl=Math.round((1-Math.min(1,q*1.5))*100),ph=Math.round((1-q/1.5)*100);bp=(gv<cv?'GPU':'CPU')+' bottleneck ≈ '+pc+'% (estimated range '+pl+'% to '+ph+'%)'}
+$("bp").textContent=bp;$("bp").style.color=col;
+$("verdict").textContent=txt;
+var AL=251.33,hv=P&&gv>0&&cv>0,pv=hv?Math.max(0,pc):0,a1=hv?Math.max(0,pl):0,a2=hv?Math.max(a1,ph):0;
+$('dgArc').style.strokeDasharray=(AL*pv/100)+' '+AL;$('dgRng').style.strokeDasharray='0 '+(AL*a1/100)+' '+(AL*(a2-a1)/100)+' '+AL;
+$('dgArc').style.stroke=col;$('dgRng').style.stroke=col;$('dgNeedle').style.transform='rotate('+(-90+pv*1.8)+'deg)';$('dgTxt').textContent=hv?pv+'%':'n/a';
+var mx=Math.max(gv,cv,1);
+$("bc").style.width=(cv/mx*100)+"%";$("bg").style.width=(gv/mx*100)+"%";
+$("vc").textContent=cv?'~'+Math.round(cv)+' FPS':'n/a';$("vg").textContent=gv?'~'+Math.round(gv)+' FPS':'n/a';
+$("tips").innerHTML=t.map(function(x){return"<li>"+x+"</li>"}).join("");
+games();
+};</script>
+</body>
+</html>
